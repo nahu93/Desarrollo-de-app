@@ -1,7 +1,8 @@
 import { 
     Text, 
     View, 
-    Button, 
+    Button,
+    Modal, 
    
     } from 'react-native';
 

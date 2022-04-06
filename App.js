@@ -7,18 +7,20 @@ import { StyleSheet,
   FlatList,
   } from 'react-native';
 
-import {ModalItem} from './components/Modal';
+import ModalItem from './components/Modal';
+import AddItem from './components/Additem';
+
 
 export default function App() {
   const [counter, setCounter] = useState(0);
-  const [textItem , setTextItem] = useState();
+  
   const [listItem, setListItem]= useState([]);
   const [itemSelected,setItemSelected] = useState ({});
   const [modalVisible,setModalVisible]= useState(false);
 
-  const onHandlerChangeItem = (texto) =>setTextItem(texto);
+  
   const onHandlerDelete = id => {
-    setListItem( currentItems => currentItems.filter ( item = item.id !== id));
+    setListItem( currentItems => currentItems.filter ( item => item.id !== id));
     setItemSelected({});
     setModalVisible(!modalVisible);
   }
@@ -32,13 +34,13 @@ export default function App() {
   }
 
 
-  const addItem = () =>{
+  const addItem = (textItem) =>{
 
     if(textItem!==""){
     setListItem( currentItems => 
       [...currentItems, {id: counter , value:textItem}
     ])
-    setTextItem('');
+    
     setCounter (counter + 1)
   }
   }
@@ -48,13 +50,9 @@ export default function App() {
 
   return (
     <View styles={styles.container}>
-       <View style={styles.addItemContainer}>
-         <TextInput 
-         placeholder= 'ingrese un item' 
-         style={styles.input} 
-         onChangeText={onHandlerChangeItem}/>
-         <Button title='Agregar' onPress={addItem}/>
-      </View>
+
+      <AddItem addItem={addItem}/>
+      
        <View style={styles.listItemContainer}>
          <FlatList data={listItem}
            renderItem={renderItem}
@@ -77,28 +75,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     
   },
-  input:{
-   borderBottomWidth:1,
-   borderBottomColor:'#000000',
-   width:280,
-   alignContent:'center',
-   alignItems:'center',
-   padding: 10,
-   marginBottom: 20,
-
-  },
-  addItemContainer:{
-    padding:50,
-    backgroundColor:'#ffbf80',
-    borderRadius:20,
-    width:'100%',
-    marginTop:100,
-    
-    
-  
-   
-  
-  },
+ 
   listItemContainer:{
     backgroundColor:'#ffd9b3',
     width:'100%',
